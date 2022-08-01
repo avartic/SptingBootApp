@@ -17,9 +17,9 @@ public class UserController {
     private UserService service;
 
     @PostMapping("/saveUser")
-    public ResponseEntity<String> saveUser(@RequestBody User user) {
+    public ResponseEntity<User> saveUser(@RequestBody User user) {
         Integer id = service.saveUser(user);
-        return new ResponseEntity<String>("User with id :'" + id + "' has been saved.", HttpStatus.OK);
+        return new ResponseEntity<User>( user , HttpStatus.OK);
     }
 
     @GetMapping("/getUsersList")
@@ -35,7 +35,7 @@ public class UserController {
     }
 
     @PutMapping("/updateUser/{userId}")
-    public ResponseEntity<String> updateUser(@PathVariable("userId") Integer userId, User user) {
+    public ResponseEntity<User> updateUser(@PathVariable("userId") Integer userId, User user) {
         User userData = service.getUserById(userId);
         userData.setFirstName(user.getFirstName());
         userData.setLastName(user.getLastName());
@@ -43,7 +43,7 @@ public class UserController {
         userData.setPassword(user.getPassword());
         userData.setSubscription(user.getSubscription());
         Integer id = service.saveUser(userData);
-        return new ResponseEntity<String>("User with id :'" + id + "' has been updated.", HttpStatus.OK);
+        return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
     @DeleteMapping("/deleteUser/{userId}")
